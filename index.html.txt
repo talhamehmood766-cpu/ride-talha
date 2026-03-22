@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QuickRide - Premium Taxi & Ride-Hailing Service. Instant booking, live tracking, safe rides 24/7 across Pakistan.">
+    <title>QuickRide • Premium Taxi & Ridesharing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: 245 158 11;
+            --primary-dark: 217 119 6;
+        }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .logo-font { font-family: 'Playfair Display', serif; }
+        
+        .hero-bg {
+            background: linear-gradient(to bottom right, rgba(0,0,0,0.75), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1502877338535-766e3a6052c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat fixed;
+        }
+        
+        .glass {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.22, 1, 0.36, 1); }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        .scale-hover { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .scale-hover:hover { transform: scale(1.06) translateY(-8px); }
+        
+        .btn-primary {
+            background: rgb(var(--primary));
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { background: rgb(var(--primary-dark)); transform: translateY(-2px); }
+        
+        .accordion-header {
+            transition: all 0.3s ease;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+        }
+        
+        .dark-mode body { background: #000; color: #f5f5f5; }
+        .dark-mode .bg-zinc-950 { background: #000; }
+        .dark-mode .bg-zinc-900 { background: #111; }
+        .dark-mode .text-zinc-100 { color: #f5f5f5; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen transition-colors duration-500">
+
+    <!-- Dark Mode Toggle -->
+    <button id="theme-toggle" class="fixed top-6 right-6 z-50 w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center shadow-lg hover:bg-zinc-700 transition">
+        <i class="fa-solid fa-moon text-xl"></i>
+    </button>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-black/70 backdrop-blur-xl border-b border-zinc-800/50">
+        <nav class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-taxi text-2xl text-black"></i>
+                </div>
+                <span class="logo-font text-3xl font-black tracking-tight">Quick<span class="text-amber-500">Ride</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+                <a href="#home" class="hover:text-amber-400 transition">Home</a>
+                <a href="#services" class="hover:text-amber-400 transition">Services</a>
+                <a href="#features" class="hover:text-amber-400 transition">Features</a>
+                <a href="#fleet" class="hover:text-amber-400 transition">Fleet</a>
+                <a href="#faq" class="hover:text-amber-400 transition">FAQ</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="book-ride-btn" class="btn-primary text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-amber-500/20 transition">
+                    Book Now
+                </button>
+                <button class="md:hidden text-2xl" id="mobile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="hero-bg min-h-screen flex items-center pt-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="fade-in">
+                <div class="inline-flex items-center gap-3 bg-amber-500/10 backdrop-blur-md px-6 py-2 rounded-full text-sm font-medium mb-6">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    24/7 • Available in 150+ Cities
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black leading-none tracking-tight mb-8">
+                    Your City.<br>Your Ride.<br><span class="text-amber-400">Instantly.</span>
+                </h1>
+                <p class="text-xl text-zinc-300 max-w-lg mb-10">
+                    Safe • Reliable • Affordable. Book in seconds, track live, arrive stress-free.
+                </p>
+
+                <!-- Booking Form -->
+                <form id="booking-form" class="glass rounded-3xl p-8 shadow-2xl fade-in">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-amber-400 mb-2">PICKUP</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-amber-400"></i>
+                                <input type="text" required placeholder="Your current location" class="w-full bg-transparent border border-zinc-700 focus:border-amber-400 rounded-xl py-4 pl-12 pr-4 outline-none transition">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-amber-400 mb-2">DROPOFF</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-flag-checkered absolute left-4 top-1/2 -translate-y-1/2 text-amber-400"></i>
+                                <input type="text" required placeholder="Where are you going?" class="w-full bg-transparent border border-zinc-700 focus:border-amber-400 rounded-xl py-4 pl-12 pr-4 outline-none transition">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+                        <div>
+                            <label class="block text-sm font-medium text-amber-400 mb-2">When</label>
+                            <input type="datetime-local" class="w-full bg-transparent border border-zinc-700 rounded-xl py-4 px-4 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-amber-400 mb-2">Passengers</label>
+                            <select class="w-full bg-transparent border border-zinc-700 rounded-xl py-4 px-4">
+                                <option>1</option><option selected>2</option><option>3</option><option>4+</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2 flex items-end">
+                            <button type="submit" class="w-full btn-primary text-black font-bold py-5 rounded-xl text-lg shadow-lg hover:shadow-amber-500/30 transition">
+                                Get Instant Quote →
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Fake Live Map Preview -->
+            <div class="hidden lg:block relative fade-in delay-300">
+                <div class="glass rounded-3xl overflow-hidden shadow-2xl aspect-video relative">
+                    <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Live map simulation" class="w-full h-full object-cover opacity-70">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-amber-500/20 flex items-center justify-center animate-pulse">
+                                <i class="fa-solid fa-car text-4xl text-amber-400"></i>
+                            </div>
+                            <p class="text-2xl font-bold">Driver arriving in ~3 min</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section id="features" class="py-24 bg-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-5xl font-black mb-4">Why Choose QuickRide?</h2>
+                <p class="text-xl text-zinc-400 max-w-2xl mx-auto">Modern features built for your comfort, safety, and convenience.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass rounded-3xl p-10 scale-hover fade-in">
+                    <i class="fa-solid fa-shield-halved text-5xl text-amber-400 mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4">Top Safety</h3>
+                    <p class="text-zinc-400">Verified drivers • Real-time tracking • Emergency SOS • Ride sharing with trusted contacts</p>
+                </div>
+                <div class="glass rounded-3xl p-10 scale-hover fade-in delay-150">
+                    <i class="fa-solid fa-clock-rotate-left text-5xl text-amber-400 mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4">Instant & Scheduled</h3>
+                    <p class="text-zinc-400">Book now or schedule ahead • Average wait < 4 min • Pre-book airport rides</p>
+                </div>
+                <div class="glass rounded-3xl p-10 scale-hover fade-in delay-300">
+                    <i class="fa-solid fa-wallet text-5xl text-amber-400 mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-4">Flexible Payments</h3>
+                    <p class="text-zinc-400">Cards • Mobile wallets • Cash • Split fare • In-app wallet & promo codes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLEET -->
+    <section id="fleet" class="py-24 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-5xl font-black mb-4">Our Premium Fleet</h2>
+                <p class="text-xl text-zinc-400">Choose the ride that fits your needs</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="glass rounded-3xl overflow-hidden scale-hover fade-in">
+                    <img src="https://images.unsplash.com/photo-1502877338535-766e3a6052c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Economy Sedan" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold mb-2">Economy</h3>
+                        <p class="text-amber-400 text-2xl font-bold">From PKR 120</p>
+                        <ul class="mt-6 space-y-3 text-zinc-300">
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i>4 passengers</li>
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i>AC • Clean interior</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="glass rounded-3xl overflow-hidden scale-hover fade-in delay-150 border-2 border-amber-500 relative">
+                    <div class="absolute top-4 right-4 bg-amber-500 text-black text-xs font-bold px-4 py-1 rounded-full">Most Popular</div>
+                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Comfort Sedan" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold mb-2">Comfort</h3>
+                        <p class="text-amber-400 text-2xl font-bold">From PKR 250</p>
+                        <ul class="mt-6 space-y-3 text-zinc-300">
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i>Spacious leather seats</li>
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i>Free Wi-Fi • Charging</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="glass rounded-3xl overflow-hidden scale-hover fade-in delay-300">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="SUV / Family" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold mb-2">SUV / Family</h3>
+                        <p class="text-amber-400 text-2xl font-bold">From PKR 450</p>
+                        <ul class="mt-6 space-y-3 text-zinc-300">
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i>6–7 passengers</li>
+                            <li><i class="fa-solid fa-check text-green-400 mr-2"></i>Large luggage space</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-24 bg-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-black text-center mb-16 fade-in">What Our Riders Say</h2>
+            <div id="testimonial-carousel" class="relative overflow-hidden">
+                <!-- JS will populate -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 bg-zinc-950">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-5xl font-black text-center mb-16 fade-in">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div class="glass rounded-xl overflow-hidden">
+                    <button class="accordion-header w-full text-left p-6 flex justify-between items-center font-semibold text-lg hover:bg-zinc-800/50 transition">
+                        <span>How do I book a ride?</span>
+                        <i class="fa-solid fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-0">
+                        <p class="pb-6 text-zinc-300">Enter pickup & dropoff locations in the app or website, choose your ride type, see the fare estimate, and confirm. Your driver will be assigned automatically.</p>
+                    </div>
+                </div>
+                <!-- Add 4–5 more similar accordions -->
+                <div class="glass rounded-xl overflow-hidden">
+                    <button class="accordion-header w-full text-left p-6 flex justify-between items-center font-semibold text-lg hover:bg-zinc-800/50 transition">
+                        <span>Is QuickRide safe?</span>
+                        <i class="fa-solid fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-0">
+                        <p class="pb-6 text-zinc-300">Yes — all drivers are background-checked, rides are tracked live, emergency button available, and you can share trip details with friends/family.</p>
+                    </div>
+                </div>
+                <!-- ... more FAQs ... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black pt-20 pb-12 border-t border-zinc-800/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-taxi text-2xl text-black"></i>
+                        </div>
+                        <span class="logo-font text-4xl font-black">QuickRide</span>
+                    </div>
+                    <p class="text-zinc-400">Safe, reliable rides across Pakistan — 24/7.</p>
+                </div>
+                <!-- More footer columns: Company, Services, Support, Download -->
+            </div>
+
+            <div class="border-t border-zinc-800 mt-16 pt-8 text-center text-sm text-zinc-500">
+                © 2026 QuickRide. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+        <div class="glass rounded-3xl p-12 max-w-md w-full mx-6 text-center scale-95 opacity-0 transition-all duration-500">
+            <i class="fa-solid fa-circle-check text-7xl text-green-400 mb-6 animate-bounce"></i>
+            <h3 class="text-4xl font-black mb-4">Ride Confirmed!</h3>
+            <p class="text-zinc-300 mb-8">Your driver is on the way. ETA: ~3–5 minutes.</p>
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="btn-primary text-black font-bold py-5 px-12 rounded-full text-lg">
+                Track Ride
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const toggle = document.getElementById('theme-toggle');
+        const icon = toggle.querySelector('i');
+        const html = document.documentElement;
+
+        function setTheme(isDark) {
+            if (isDark) {
+                html.classList.add('dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                html.classList.remove('dark');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        toggle.addEventListener('click', () => {
+            setTheme(!html.classList.contains('dark'));
+        });
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            setTheme(true);
+        }
+
+        // Scroll Animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Mobile Menu (if needed)
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+            // toggle mobile menu logic here if expanded
+        });
+
+        // Booking Form Submit
+        document.getElementById('booking-form')?.addEventListener('submit', e => {
+            e.preventDefault();
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95', 'opacity-0');
+                modal.querySelector('div').classList.add('scale-100', 'opacity-100');
+            }, 100);
+        });
+
+        // Simple Testimonial Carousel (expandable)
+        const testimonials = [
+            { name: "Sara Ahmed", text: "Fastest booking ever. Driver was polite and arrived early!", avatar: "https://i.pravatar.cc/80?img=68" },
+            { name: "Usman Ali", text: "Used for airport drop. Smooth ride, great price, highly recommend.", avatar: "https://i.pravatar.cc/80?img=44" },
+            { name: "Ayesha Khan", text: "Family SUV was perfect for our trip. Very clean & spacious.", avatar: "https://i.pravatar.cc/80?img=32" }
+        ];
+
+        let current = 0;
+        const carousel = document.getElementById('testimonial-carousel');
+
+        function renderTestimonial() {
+            carousel.innerHTML = `
+                <div class="glass rounded-3xl p-10 text-center mx-auto max-w-3xl transition-all duration-700">
+                    <img src="${testimonials[current].avatar}" alt="" class="w-20 h-20 rounded-full mx-auto mb-6 border-4 border-amber-500/30">
+                    <p class="text-xl italic mb-6">"${testimonials[current].text}"</p>
+                    <p class="font-bold text-amber-400">${testimonials[current].name}</p>
+                </div>
+            `;
+        }
+
+        renderTestimonial();
+        setInterval(() => {
+            current = (current + 1) % testimonials.length;
+            renderTestimonial();
+        }, 6000);
+
+        // Accordion
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isOpen = content.style.maxHeight;
+                
+                document.querySelectorAll('.accordion-content').forEach(c => {
+                    if (c !== content) c.style.maxHeight = null;
+                });
+
+                content.style.maxHeight = isOpen ? null : content.scrollHeight + "px";
+                header.querySelector('i').classList.toggle('rotate-180');
+            });
+        });
+    </script>
+</body>
+</html>
